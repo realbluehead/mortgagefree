@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row" style='height:30px;'>
+  </div>
+  <div class='row'>
+    <div class='col-12'>
+        <div class="card">
+          <h4 class="card-header">MORTGAGE INFORMATION</h4>
+             <div class="card-block">
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                    <form [formGroup]="myForm">
+                  <table class='table'>
+                    <tr>
+                      <td>Starting date</td>
+                      <td><my-date-picker name="mydate" [options]="myDatePickerOptions" formControlName="startingDate"></my-date-picker>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Mortgage amount</td>
+                      <td><input type='text' class='form-control' formControlName="principal" placeholder="the amount being financiated"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Anual interest rate</td>
+                      <td><input type='text' class='form-control' formControlName="interestRate" placeholder="in percent"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td><input type='text' class='form-control' formControlName="duration" placeholder="in months">
+                      </td>
+                    </tr>
+                     <tr>
+                      <td>Ending Date</td>
+                      <td>{{calculatedFields.endDate}}
+                      </td>
+                    </tr>
+                     <tr>
+                      <td>Total interest amount</td>
+                      <td><input type='text' disabled class='form-control'/>
+                      </td>
+                    </tr>
+                     <tr>
+                      <td>Total cost</td>
+                      <td><input type='text' disabled class='form-control'/>
+                      </td>
+                    </tr>
+                     <tr>
+                      <td>Monthly amount</td>
+                      <td><input type='text' disabled class='form-control'/>
+                      </td>
+                    </tr>
+                     <tr>
+                      <td>Total interest rate</td>
+                      <td><input type='text' disabled class='form-control'/>
+                      </td>
+                    </tr>
+                  </table>
+                    </form>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <chart [options]="options" style='width:100%'></chart>
+                </div>
+              </div>
+              <a href="#" class="btn btn-primary">show amortization plan</a>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class='row' style='margin-top:10px'>
+    <div class='col-12'>
+        <div class="card">
+          <h6 class="card-header">AMORTIZATION PLAN</h6>
+             <div class="card-block">
+              <div class="row">
+                <div class="col-12">
+                    <table class='table'>
+                        <tr>
+                            <td>#QUOTA</td>
+                            <td>DATE</td>
+                            <td>QUOTA</td>
+                            <td>PRINCIPAL</td>
+                            <td>INTERESTS</td>
+                            <td>PENDING CAPITAL</td>
+                            <td>AMORTIZAT</td>
+                            <td>% DONE</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+  </div>
+
+</div>
