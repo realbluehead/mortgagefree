@@ -34,8 +34,16 @@ export class MortageDetailsComponent implements OnInit {
             interestRate: [5.1, []],
             duration: [360, []],
             endDate: [null, []],
-            monthlyAmount: [null,[]]
+            monthlyAmount: [null, []],
+            totalInterests: [null, []],
+            totalCost: [null, []],
+            totalInterestRate: [null, []]
         });
+        this.myForm.controls.endDate.disable();
+        this.myForm.controls.monthlyAmount.disable();
+        this.myForm.controls.totalInterests.disable();
+        this.myForm.controls.totalCost.disable();
+        this.myForm.controls.totalInterestRate.disable();
     }
 
 
@@ -81,6 +89,12 @@ export class MortageDetailsComponent implements OnInit {
   const pmt = ir * pv * (pvif + fv) / (pvif - 1);
   // pmt /= (1 + ir);
   this.myForm.controls.monthlyAmount.setValue(pmt.toFixed(2) + '€');
+  const totalCost = pmt * np;
+  const totalInterests = totalCost - pv;
+  const totalInterestRate = ((totalCost / pv) - 1) * 100;
+  this.myForm.controls.totalInterests.setValue(totalInterests.toFixed(2) + '€');
+  this.myForm.controls.totalCost.setValue(totalCost.toFixed(2) + '€');
+  this.myForm.controls.totalInterestRate.setValue(totalInterestRate.toFixed(2) + '%');
 }
 
 }
