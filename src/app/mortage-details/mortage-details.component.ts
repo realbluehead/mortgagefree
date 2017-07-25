@@ -56,7 +56,7 @@ export class MortageDetailsComponent implements OnInit {
   recalculate(data) {
     if (!this.myForm.pristine) {
       this.myForm.markAsPristine();
-        if (data.startingDate !== null && data.duration) { 
+        if (data.startingDate !== null && data.duration) {
           this.calculateEndDate();
         }
         this.mortageParams();
