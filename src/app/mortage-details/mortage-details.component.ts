@@ -8,7 +8,7 @@ import {IMyDpOptions} from 'mydatepicker';
   styleUrls: ['./mortage-details.component.scss']
 })
 export class MortageDetailsComponent implements OnInit {
-  public options: Object;
+  public options: any;
   public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd.mm.yyyy',
     };
@@ -51,6 +51,7 @@ export class MortageDetailsComponent implements OnInit {
     this.myForm.valueChanges.subscribe((data) => {
       this.recalculate(data);
     });
+    this.mortageParams();
   }
 
   recalculate(data) {
@@ -75,26 +76,39 @@ export class MortageDetailsComponent implements OnInit {
   }
 
   mortageParams() {
-  /*
-  ir - interest rate per month
-  np - number of periods (months)
-  pv - present value
-  fv - future value (residual value)
-  */
-  const ir = parseFloat(this.myForm.controls.interestRate.value) / 100 / 12;
-  const np = parseInt(this.myForm.controls.duration.value, 10);
-  const pv = parseFloat(this.myForm.controls.principal.value);
-  const fv = 0;
-  const pvif = Math.pow(1 + ir, np);
-  const pmt = ir * pv * (pvif + fv) / (pvif - 1);
-  // pmt /= (1 + ir);
-  this.myForm.controls.monthlyAmount.setValue(pmt.toFixed(2) + '€');
-  const totalCost = pmt * np;
-  const totalInterests = totalCost - pv;
-  const totalInterestRate = ((totalCost / pv) - 1) * 100;
-  this.myForm.controls.totalInterests.setValue(totalInterests.toFixed(2) + '€');
-  this.myForm.controls.totalCost.setValue(totalCost.toFixed(2) + '€');
-  this.myForm.controls.totalInterestRate.setValue(totalInterestRate.toFixed(2) + '%');
-}
+    /*
+    ir - interest rate per month
+    np - number of periods (months)
+    pv - present value
+    fv - future value (residual value)
+    */
+    const ir = parseFloat(this.myForm.controls.interestRate.value) / 100 / 12;
+    const np = parseInt(this.myForm.controls.duration.value, 10);
+    const pv = parseFloat(this.myForm.controls.principal.value);
+    const fv = 0;
+    const pvif = Math.pow(1 + ir, np);
+    const pmt = ir * pv * (pvif + fv) / (pvif - 1);
+    // pmt /= (1 + ir);
+    this.myForm.controls.monthlyAmount.setValue(pmt.toFixed(2) + '€');
+    const totalCost = pmt * np;
+    const totalInterests = totalCost - pv;
+    const totalInterestRate = ((totalCost / pv) - 1) * 100;
+    this.myForm.controls.totalInterests.setValue(totalInterests.toFixed(2) + '€');
+    this.myForm.controls.totalCost.setValue(totalCost.toFixed(2) + '€');
+    this.myForm.controls.totalInterestRate.setValue(totalInterestRate.toFixed(2) + '%');
+    this.options = {
+            chart: { type: 'pie' },
+            title : { text : 'MORTGAGE TRADEOFF' },
+            series: [{
+                name: 'Amount (€)',
+                data: [{name: 'Principal', y: pv},
+                       {name: 'Interests', y: parseFloat(totalInterests.toFixed(2))}],
+            }],
+            credits: {
+              enabled: false
+            },
+        };
+    
+  }
 
 }
