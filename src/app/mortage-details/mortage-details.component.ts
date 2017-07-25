@@ -32,7 +32,9 @@ export class MortageDetailsComponent implements OnInit {
             startingDate: [null, Validators.required],
             principal: [10000, []],
             interestRate: [5.1, []],
-            duration: [360, []]
+            duration: [360, []],
+            endDate: [null, []],
+            monthlyAmount: [null,[]]
         });
     }
 
@@ -44,17 +46,41 @@ export class MortageDetailsComponent implements OnInit {
   }
 
   recalculate(data) {
-    if (data.startingDate !== null) {
-      this.calculateEndDate();
+    if (!this.myForm.pristine) {
+      this.myForm.markAsPristine();
+        if (data.startingDate !== null && data.duration) { 
+          this.calculateEndDate();
+        }
+        this.mortageParams();
     }
   }
 
   calculateEndDate() {
-    let date = this.myForm.controls.startingDate.value.date;
-    console.log(date);
-    console.log('adding months ' + this.myForm.controls.duration.value);
-    const end = new Date(date.year, date.month + this.myForm.controls.duration.value + 1, date.day);
-    this.calculatedFields.endDate = end;
+    const date = this.myForm.controls.startingDate.value.date;
+    const endDate = new Date(date.year, date.month + parseInt(this.myForm.controls.duration.value, 10), date.day);
+    this.myForm.controls.endDate.setValue({
+                                            date: {
+                                                  day: endDate.getDate(),
+                                                  month: endDate.getMonth(),
+                                                  year: endDate.getFullYear()
+                                            }});
   }
+
+  mortageParams() {
+  /*
+  ir - interest rate per month
+  np - number of periods (months)
+  pv - present value
+  fv - future value (residual value)
+  */
+  const ir = parseFloat(this.myForm.controls.interestRate.value) / 100 / 12;
+  const np = parseInt(this.myForm.controls.duration.value, 10);
+  const pv = parseFloat(this.myForm.controls.principal.value);
+  const fv = 0;
+  const pvif = Math.pow(1 + ir, np);
+  const pmt = ir * pv * (pvif + fv) / (pvif - 1);
+  // pmt /= (1 + ir);
+  this.myForm.controls.monthlyAmount.setValue(pmt.toFixed(2) + '€');
+}
 
 }

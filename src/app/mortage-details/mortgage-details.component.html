@@ -32,12 +32,12 @@
                     </tr>
                      <tr>
                       <td>Ending Date</td>
-                      <td>{{calculatedFields.endDate}}
+                      <td><my-date-picker name="mydate" [options]="myDatePickerOptions" formControlName="endDate"></my-date-picker>
                       </td>
                     </tr>
                      <tr>
                       <td>Total interest amount</td>
-                      <td><input type='text' disabled class='form-control'/>
+                      <td><input type='text' disabled class='form-control' />
                       </td>
                     </tr>
                      <tr>
@@ -47,7 +47,7 @@
                     </tr>
                      <tr>
                       <td>Monthly amount</td>
-                      <td><input type='text' disabled class='form-control'/>
+                      <td><input type='text' disabled class='form-control' formControlName="monthlyAmount"/>
                       </td>
                     </tr>
                      <tr>
